@@ -71,6 +71,15 @@ Apply the following manifest to setup RBAC for helm:
 ```bash
 kubectl apply -f ignite-day2-aks/manifest/helm-rbac.yaml
 ```
+***Note***
+For running Helm commands we need to install Helm v2.1.6 in Azure CLI. Currently, Az CLI is supporting Helm 3. So, we need to run the following commands in Azure CLI to successfully perform all the Helm commands.
+```bash 
+cd linux-amd64 
+wget https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz 
+tar -xzvf helm-v2.16.1-linux-amd64.tar.gz
+```
+***Once we successfully ran the above commands, we need to add prefix - "/home/odluser/linux-amd64/ " before all the Helm commands to execute it without issues***
+
 
 Now we will initialize Helm and it will be deployed to the cluster
 
