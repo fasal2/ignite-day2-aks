@@ -74,17 +74,15 @@ kubectl apply -f ignite-day2-aks/manifest/helm-rbac.yaml
 ***Note***
 For running Helm commands we need to install Helm v2.1.6 in Azure CLI. Currently, Az CLI is supporting Helm 3. So, we need to run the following commands in Azure CLI to successfully perform all the Helm commands.
 ```bash 
-cd linux-amd64 
+cd linux-amd64
 wget https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz 
 tar -xzvf helm-v2.16.1-linux-amd64.tar.gz
 ```
-***Once we successfully ran the above commands, we need to add prefix - "/home/odluser/linux-amd64/ " before all the Helm commands to execute it without issues***
 
-
-Now we will initialize Helm and it will be deployed to the cluster
+Now we will initialize Helm and it will be deployed to the cluster. From the `linux-amd64` directory run the below command.
 
 ```bash
-helm init --service-account tiller
+./helm init --service-account tiller
 ```
 
 **wait approximately 20 seconds before running the next command**
@@ -92,7 +90,7 @@ helm init --service-account tiller
 Now that we have Helm setup we'll now deploy are MongoDB database
 
 ```bash
-helm install stable/mongodb --name orders-mongo --set mongodbUsername=orders-user,mongodbPassword=orders-password,mongodbDatabase=akschallenge
+./helm install stable/mongodb --name orders-mongo --set mongodbUsername=orders-user,mongodbPassword=orders-password,mongodbDatabase=akschallenge
 ```
 
 We'll now create the secrets the application will use to connect to the MongoDB Database
