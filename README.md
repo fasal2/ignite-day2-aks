@@ -74,9 +74,10 @@ kubectl apply -f ignite-day2-aks/manifest/helm-rbac.yaml
 ***Note***
 For running Helm commands we need to install Helm v2.1.6 in Azure CLI. Currently, Az CLI is supporting Helm 3. So, we need to run the following commands in Azure CLI to successfully perform all the Helm commands.
 ```bash 
-cd linux-amd64
+
 wget https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz 
 tar -xzvf helm-v2.16.1-linux-amd64.tar.gz
+cd linux-amd64
 ```
 
 Now we will initialize Helm and it will be deployed to the cluster. From the `linux-amd64` directory run the below command.
