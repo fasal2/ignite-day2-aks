@@ -211,7 +211,7 @@ Now in the "Policy" blade select the following.
 Now set the following parameters
 
 * Scope - Choose your subscription and AKS resource group
-* Policy Definition - Search for AKS and choose [Limited Preview]: Ensure only allowed container images in AKS
+* Policy Definition - Search for `container images` and choose **Ensure only allowed container images in Kubernetes cluster**
 * Enforcement - Disabled
 * Select __Next__
 * Allowed Container Images Regex - ^.+azurecr.io/.+$
@@ -220,7 +220,7 @@ Now set the following parameters
 Also add the following policy
 
 * Scope - Choose your subscription and AKS resource group
-* Policy Definition - Search for AKS and choose [Limited Preview]: Do not allow privileged containers in AKS
+* Policy Definition - Search for `privileged containers` and choose **Do not allow privileged containers in Kubernetes cluster**
 * Enforcement - Disabled
 * Select __Review + Create__
 
