@@ -65,33 +65,14 @@ The application consists of 3 components:
 - A MongoDB database
 
 You'll first need to setup Helm, as we'll use it to deploy the MongoDB database.
-
-Apply the following manifest to setup RBAC for helm:
-
-```bash
-kubectl apply -f ignite-day2-aks/manifest/helm-rbac.yaml
+Run the below command to add azure-marketplace to repositories. 
 ```
-***Note***
-For running Helm commands we need to install Helm v2.1.6 in Azure CLI. Currently, Az CLI is supporting Helm 3. So, we need to run the following commands in Azure CLI to successfully perform all the Helm commands.
-```bash 
-
-wget https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz 
-tar -xzvf helm-v2.16.1-linux-amd64.tar.gz
-cd linux-amd64
+helm repo add azure-marketplace https://marketplace.azurecr.io/helm/v1/repo
 ```
-
-Now we will initialize Helm and it will be deployed to the cluster. From the `linux-amd64` directory run the below command.
-
-```bash
-./helm init --service-account tiller
-```
-
-**wait approximately 20 seconds before running the next command**
-
 Now that we have Helm setup we'll now deploy are MongoDB database
 
 ```bash
-./helm install stable/mongodb --name orders-mongo --set mongodbUsername=orders-user,mongodbPassword=orders-password,mongodbDatabase=akschallenge
+helm install orders-mongo azure-marketplace/mongodb --set auth.username=orders-user,auth.password=orders-password,auth.database=akschallenge
 ```
 
 We'll now create the secrets the application will use to connect to the MongoDB Database
