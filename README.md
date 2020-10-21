@@ -65,6 +65,11 @@ The application consists of 3 components:
 - A MongoDB database
 
 You'll first need to setup Helm, as we'll use it to deploy the MongoDB database.
+
+Apply the following manifest to setup RBAC for helm:
+```
+kubectl apply -f ignite-day2-aks/manifest/helm-rbac.yaml
+```
 Run the below command to add azure-marketplace to repositories. 
 ```
 helm repo add azure-marketplace https://marketplace.azurecr.io/helm/v1/repo
@@ -111,11 +116,17 @@ You'll notice that the "captureorder" service is in a CrashLoopBack/error state,
 
 ## Troubleshoot Application with Azure Container Insights
 
-In the Azure portal navigate to your AKS cluster, which is listed under "Kubernetes Service. Once you have selected your cluster, select "Monitor Containers" in the center screen navigation.
+In the Azure portal navigate to your AKS cluster, which is listed under "Kubernetes Service. Once you have selected your cluster, Select `Capabilities` in the `Overview` page and Click on `Azure Monitor`.
 
-![Azure Monitor For Containers](./img/monitor-center.png "Azure Monitor For Containers")
+![Azure Monitor For Containers](./img/monitor.jpg "Azure Monitor For Containers")
 
-Now select "Controllers" from the top navigation and scroll to you find the "captureorder" controller. Now select "live logs" on the right panel to see the logs for the captureorder service.
+Now select `Controllers` from the top navigation and scroll to you find the "captureorder-xxxxxxx" controller. 
+
+![Controller](./img/controller.jpg "Controller")
+
+Now select `Capture order-xxxxxxxxxxxx` from the list and select `View live Data (Preview)` on the right panel to see the logs for the captureorder service.
+
+![Capture Order Live Data](./img/capture.jpg "Capture Order Live Data")
 
 You'll see that the "connection is refused" and if we look at the Environmental Variable on the right side we can see we have  "wrong-password" for the MongoDB server. Since we have the wrong password our app is unable to make a connection to the MongoDB database that it's dependant on.
 
