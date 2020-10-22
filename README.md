@@ -46,7 +46,7 @@ CLUSTERNAME=ignite-<id>
 az aks get-credentials -n $CLUSTERNAME -g $RGNAME
 ```
 
-**Tip: You can get your cluster name and resource group with the following command:
+Run the below command to list the details of the AKS cluster.
 
 ```bash
 az aks list
@@ -79,6 +79,19 @@ Now that we have Helm setup we'll now deploy are MongoDB database
 ```bash
 helm install orders-mongo azure-marketplace/mongodb --set auth.username=orders-user,auth.password=orders-password,auth.database=akschallenge
 ```
+Run the below command and make sure orders-mongodb pod is running
+
+```bash
+kubectl get pods
+```
+You should get this as output.
+
+```
+NAME                                   READY   STATUS    RESTARTS   AGE
+azure-vote-back-bc5b86f5f-hkwj6        1/1     Running   0          9m30s
+azure-vote-front-ccfd8667f-w7xlr       1/1     Running   0          9m30s
+orders-mongo-mongodb-f5cfb56d5-2dm78   1/1     Running   0          61s
+```
 
 We'll now create the secrets the application will use to connect to the MongoDB Database
 
@@ -93,7 +106,7 @@ To deploy the application we will need to deploy a set of pre-created set of Kub
 kubectl apply -f ignite-day2-aks/manifest/app
 ```
 
-Now that your app is deployed you can check the status of it with the following command:
+Now that your app is deployed you can check the status of it with the following command ater a couple of seconds:
 
 ```bash
 kubectl get pods
@@ -236,7 +249,7 @@ captureorder           LoadBalancer   10.0.127.97   52.228.224.149   80:31195/TC
 Now run the following command in substitute your external service IP:
 
 ```bash
-az container create -g $RGNAME -n loadtest --image azch/loadtest --restart-policy Never -e SERVICE_ENDPOINT=https://<hostname order capture service>
+az container create -g $RGNAME -n loadtest --image azch/loadtest --restart-policy Never -e SERVICE_ENDPOINT=http://<hostname order capture service>
 ```
 
 Once the container is running you can view the logs and review the results. It will run a series of load test, which will increase latency over 2 minutes.
@@ -253,7 +266,7 @@ kubectl apply -f ignite-day2-aks/manifest/app/hpa.yaml
 After this is applied we will run the load test again and we'll see how are application automatically scales.
 
 ```bash
-az container create -g $RGNAME -n loadtest2 --image azch/loadtest --restart-policy Never -e SERVICE_ENDPOINT=https://<hostname order capture service>
+az container create -g $RGNAME -n loadtest2 --image azch/loadtest --restart-policy Never -e SERVICE_ENDPOINT=http://<hostname order capture service>
 ```
 After running the load test you can run the following command to see that new pods are automatically being created to handle the increased load
 
@@ -265,25 +278,21 @@ Now let's go back and check our Azure policies to see the audit information
 
 ## View Policy Compliance with Azure Policy For AKS to govern resources
 
-In the portal search for __Policy__. Ensure that you change the scope to only include your resource group.
+In the portal search for __Policy__. Ensure that you change the scope to only include your `ODL-aks-XXXXX` resource group.
 
 ![Scope Policy](./img/policy-scope.png "Scope Policy")
 
-In the policy section view select __Compliance__. Now you will see, which resources are in or out of compliance.
+In the policy section view select __Compliance__ and refresh. Now you will see, which resources are in or out of compliance.
 
-You will notice that the "Enforce Internal Load Balancer" is out of compliance. Since we did not set it to __Enforce__ it just audits for the compliance violation. If you were to set Enforcement to Enabled, then it would deny the resource being created.
+You will notice that the "Ensure only allowed container images in Kubernetes cluster" is out of compliance. Since we did not set it to __Enforce__ it just audits for the compliance violation. If you were to set Enforcement to Enabled, then it would deny the resource being created.
 
 ## View recommendations from Azure Security Center
 
 In the portal search for __Security Center__. Then perform the following steps
 
-- Choose "Compute and Apps" on the left side
-- Select "Containers"
-- Select your cluster
+Select `Recommendations` blade from the left menu bar and you should see something like this:
 
-You should see the recommendations blade like the following:
-
-![Security Center](./img/security-center.png "Security Center")
+![Security Center](./img/recommendations.jpg "Security Center")
 
 You can now look at the different recommendation that Security Center makes to help apply security best practices for your cluster.
 
