@@ -229,7 +229,7 @@ Also add the following policy
 * Enforcement - Disabled
 * Select __Review + Create__
 
-__We will come back to look at how policies work in a later section, as it takes a few minutes for them to initialize and take effect.__
+__We will come back to look at how policies work in a later section, as it takes some time for them to initialize and take effect.__
 
 ## Scale Application
 
@@ -283,6 +283,10 @@ In the portal search for __Policy__. Ensure that you change the scope to only in
 ![Scope Policy](./img/policy-scope.png "Scope Policy")
 
 In the policy section view select __Compliance__ and refresh. Now you will see, which resources are in or out of compliance.
+
+```
+Note : Don't worry if you didn't find the policy compliance updated. Sometime this will take around 1-2 hours get this updated.
+```
 
 You will notice that the "Ensure only allowed container images in Kubernetes cluster" is out of compliance. Since we did not set it to __Enforce__ it just audits for the compliance violation. If you were to set Enforcement to Enabled, then it would deny the resource being created.
 
